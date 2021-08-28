@@ -1,0 +1,10 @@
+package com.example.mission_to_mars;
+
+public interface SpaceShip {
+
+    public boolean launch();
+    public boolean land();
+    public boolean canCarry(Item item);
+    public int carry(Item item);
+
+}
