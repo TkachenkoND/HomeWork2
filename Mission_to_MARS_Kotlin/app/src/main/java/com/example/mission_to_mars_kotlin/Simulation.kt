@@ -9,29 +9,11 @@ import kotlin.collections.ArrayList
 class Simulation(var context: Context) {
 
     @Throws(IOException::class)
-    fun downloadPhaseOne(): ArrayList<Item>{
-        val ass_maneger: AssetManager = context!!.assets
+    fun loadItems(fileName: String): ArrayList<Item>{
+        val assManeger: AssetManager = context!!.assets
         val loadManifest: ArrayList<Item> = ArrayList()
 
-        val filescanner = Scanner(ass_maneger.open("Phase-1.txt"))
-
-        while (filescanner.hasNextLine()) {
-            val newItem: Item = Item()
-            val tokens = filescanner.nextLine().split("=").toTypedArray()
-            newItem.name = tokens[0]
-            newItem.weight = tokens[tokens.size - 1].toInt()
-            loadManifest.add(newItem)
-        }
-
-        return loadManifest
-    }
-
-    @Throws(IOException::class)
-    fun downloadPhaseTwo(): ArrayList<Item>{
-        val ass_maneger: AssetManager = context!!.assets
-        val loadManifest: ArrayList<Item> = ArrayList()
-
-        val filescanner = Scanner(ass_maneger.open("Phase-2.txt"))
+        val filescanner = Scanner(assManeger.open(fileName))
 
         while (filescanner.hasNextLine()) {
             val newItem: Item = Item()
@@ -45,33 +27,45 @@ class Simulation(var context: Context) {
     }
 
     fun loadU1(list: ArrayList<Item>): ArrayList<Rocket>{
-        val rocket_list_one : ArrayList<Rocket> = ArrayList()
-        var rocket_one: Rocket = U1()
+        val rocketListOne : ArrayList<Rocket> = ArrayList()
+        var rocketOne: Rocket = U1()
 
-        for (thisItem in list) {
-            if (rocket_one.canCarry(thisItem)) {
-                rocket_list_one.add(rocket_one)
-            } else {
-                rocket_one = U1()
-                rocket_list_one.add(rocket_one)
+        var itemCounter = 1
+        var rocketCounter = 1
+
+        for (i in list) {
+            while (!rocketOne.canCarry(i)) {
+                rocketCounter++
+                rocketListOne.add(rocketOne)
+                rocketOne = U1()
             }
+            rocketOne.carry(i)
+            itemCounter++
         }
-        return rocket_list_one
+        rocketListOne.add(rocketOne)
+
+        return rocketListOne
     }
 
     fun loadU2(list: ArrayList<Item>): ArrayList<Rocket>{
-        val rocket_list_two: ArrayList<Rocket> = ArrayList()
-        var rocket_two: Rocket = U2()
+        val rocketListTwo: ArrayList<Rocket> = ArrayList()
+        var rocketTwo: Rocket = U2()
 
-        for (thisItem in list) {
-            if (rocket_two.canCarry(thisItem)) {
-                rocket_list_two.add(rocket_two)
-            } else {
-                rocket_two = U2()
-                rocket_list_two.add(rocket_two)
+        var itemCounter = 1
+        var rocketCounter = 1
+
+        for (i in list) {
+            while (!rocketTwo.canCarry(i)) {
+                rocketCounter++
+                rocketListTwo.add(rocketTwo)
+                rocketTwo = U1()
             }
+            rocketTwo.carry(i)
+            itemCounter++
         }
-        return rocket_list_two
+        rocketListTwo.add(rocketTwo)
+
+        return rocketListTwo
     }
 
     fun runSimulation(rockets: ArrayList<Rocket>): Int{
@@ -79,9 +73,10 @@ class Simulation(var context: Context) {
 
         for (currentRocket in rockets) {
             totalCost += currentRocket.getCost()
-            while (!currentRocket.launch() || !currentRocket.land()) {
+
+            do {
                 totalCost += currentRocket.getCost()
-            }
+            }while (!currentRocket.launch() || !currentRocket.land())
         }
         return totalCost
     }

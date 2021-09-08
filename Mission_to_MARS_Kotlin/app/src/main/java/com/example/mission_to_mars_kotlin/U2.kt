@@ -4,23 +4,23 @@ class U2: Rocket() {
     init {
         cost = 120
         weight = 18000
-        max_weight = 29000
-        launch_explosion = 0.0
-        landing_crash = 0.0
-        current_weight = weight
+        maxWeight = 29000
+        launchExplosion = 0.0
+        landingCrash = 0.0
+        currentWeight = weight
     }
 
     override fun land(): Boolean {
         val random = (Math.random() * 100 + 1).toInt()
-        landing_crash = 8.0 * (current_weight - weight) / (max_weight - weight)
+        landingCrash = 8.0 * (currentWeight - weight) / (maxWeight - weight)
 
-        return landing_crash <= random
+        return landingCrash <= random
     }
 
     override fun launch(): Boolean {
         val random = (Math.random() * 100 + 1).toInt()
-        launch_explosion = 4.0 * (current_weight - weight) / (max_weight - weight)
+        launchExplosion = 4.0 * (currentWeight - weight) / (maxWeight - weight)
 
-        return launch_explosion <= random
+        return launchExplosion <= random
     }
 }

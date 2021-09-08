@@ -3,21 +3,21 @@ package com.example.mission_to_mars_kotlin
 open class Rocket: SpaceShip {
     internal var cost: Int = 0
     var weight: Int = 0
-    var max_weight: Int = 0
-    var launch_explosion: Double = 0.0
-    var landing_crash: Double =0.0
-    var current_weight: Int = 0
+    var maxWeight: Int = 0
+    var launchExplosion: Double = 0.0
+    var landingCrash: Double =0.0
+    var currentWeight: Int = 0
 
-    override fun launch(): Boolean { return true }
+    override fun launch(): Boolean = true
 
-    override fun land(): Boolean{ return true }
+    override fun land(): Boolean = true
 
     override fun canCarry(item: Item?): Boolean{
-        return this.current_weight + item!!.weight <= max_weight}
+        return this.currentWeight + item!!.weight <= maxWeight}
 
     override fun carry(item: Item?): Int{
-        this.current_weight +=item!!.weight;
-        return this.current_weight
+        this.currentWeight +=item!!.weight;
+        return this.currentWeight
     }
 
     open fun getCost(): Int{ return this.cost}

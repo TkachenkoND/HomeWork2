@@ -4,10 +4,10 @@ public class Rocket implements SpaceShip{
 
     int cost;
     int weight;
-    int max_weight;
-    double launch_explosion;
-    double landing_crash;
-    int current_weight;
+    int maxWeight;
+    double launchExplosion;
+    double landingCrash;
+    int currentWeight;
 
 
     public boolean launch() {
@@ -19,12 +19,12 @@ public class Rocket implements SpaceShip{
     }
 
     public boolean canCarry(Item item) {
-        return this.current_weight + item.weight <= max_weight;
+        return this.currentWeight + item.weight <= maxWeight;
     }
 
     public int carry(Item item) {
-        this.current_weight += item.weight;
-        return this.current_weight;
+        this.currentWeight += item.weight;
+        return this.currentWeight;
     }
 
     protected int getCost() {

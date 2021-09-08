@@ -7,31 +7,31 @@ import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    TextView txt_sum_U1;
-    TextView txt_sum_U2;
+    TextView txtSumU1;
+    TextView txtSumU2;
     Simulation simulation = new Simulation(this);
-    private int total_budget_u1 = 0;
-    private int total_budget_u2 = 0;
+    private int totalBudgetU1 = 0;
+    private int totalBudgetU2 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txt_sum_U1 = findViewById(R.id.txt_sum_U1);
-        txt_sum_U2 = findViewById(R.id.txt_sum_U2);
+        txtSumU1 = findViewById(R.id.txt_sum_U1);
+        txtSumU2 = findViewById(R.id.txt_sum_U2);
     }
 
     public void runTheSimulation(View view) throws Exception {
         //Запуск моделювання для U1
-        total_budget_u1 = simulation.runSimulation(simulation.loadU1(simulation.downloadPhaseOne())); //перша фаза
-        total_budget_u1 += simulation.runSimulation(simulation.loadU1(simulation.downloadPhaseTwo())); //друга фаза
-        txt_sum_U1.setText(total_budget_u1 + " million $");
+        totalBudgetU1 = simulation.runSimulation(simulation.loadU1(simulation.loadItems("Phase-1.txt"))); //перша фаза
+        totalBudgetU1 += simulation.runSimulation(simulation.loadU1(simulation.loadItems("Phase-2.txt"))); //друга фаза
+        txtSumU1.setText(totalBudgetU1 + " million $");
 
         //Запуск моделювання для U2
-        total_budget_u2 = simulation.runSimulation(simulation.loadU2(simulation.downloadPhaseOne())); //перша фаза
-        total_budget_u2 += simulation.runSimulation(simulation.loadU2(simulation.downloadPhaseTwo())); //друга фаза
-        txt_sum_U2.setText(total_budget_u2 + " million $");
+        totalBudgetU2 = simulation.runSimulation(simulation.loadU2(simulation.loadItems("Phase-1.txt"))); //перша фаза
+        totalBudgetU2 += simulation.runSimulation(simulation.loadU2(simulation.loadItems("Phase-2.txt"))); //друга фаза
+        txtSumU2.setText(totalBudgetU2 + " million $");
 
     }
 }
